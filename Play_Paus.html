@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;   
+      height: 100vh;
+      margin: 0;
+    }
+
+    #box_outer {
+      width: 700px;
+      height: 600px;
+      background-color: aqua;
+      position: relative; 
+    }
+
+    #box_inner {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-color: red;
+    }
+
+    #btns {
+      position: absolute;
+      bottom: 20px;       
+      left: 50%;           
+      transform: translateX(-50%); 
+    }
+
+    #btns button {
+      margin: 0 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="box_outer">
+    <div id="box_inner"></div>
+  </div>
+
+  <div id="btns">
+    <button id="play_btn">Play</button>
+    <button id="pause_btn">Pause</button>
+  </div>
+
+  <script>
+
+   var play_btn = document.getElementById('play_btn');
+    var pause_btn = document.getElementById('pause_btn');
+    var box_inner = document.getElementById('box_inner');
+
+    var play_interval;
+    var style_left = 0;
+    var style_top = 0;
+    var direction = "right"; 
+
+    play_btn.addEventListener('click', function() {
+      clearInterval(play_interval);
+      play_interval = setInterval(moveBox);
+    });
+
+    pause_btn.addEventListener('click', function() {
+      clearInterval(play_interval);
+    });
+
+    function moveBox() {
+      if (direction === "right") {
+        style_left++;
+        if (style_left >= 600){
+          direction = "down";
+        } 
+      } 
+      else if (direction === "down") {
+        style_top++;
+        if (style_top >= 500){
+          direction = "left";
+        } 
+      } 
+      else if (direction === "left") {
+        style_left--;
+        if (style_left <= 0) direction = "up";
+      } 
+      else if (direction === "up") {
+        style_top--;
+        if (style_top <= 0){
+          direction = "right";
+        } 
+      }
+
+      box_inner.style.left = style_left + "px";
+      box_inner.style.top = style_top + "px";
+
+    }
+
+  </script>
+
+</body>
+</html>

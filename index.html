@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+
+   #box{
+    width:100px;
+    height:100px;
+    background: red;
+    position:absolute;
+   }
+   #btn{
+    margin-top: 105px;
+   }
+  </style>
+</head>
+<body>
+
+  <div id="box" class="box">
+
+  </div>
+  <br>
+  <div id="btn">
+    <button id="btn1">MTW</button>
+   <button id="btn2">MTL</button>
+   <button id="btn3">STP</button>
+  </div>
+   
+  <script>
+    var btn1=document.getElementById('btn1');
+    var btn2=document.getElementById('btn2');
+    var btn3=document.getElementById('btn3');
+    var main_box=document.getElementById('box');
+
+    var MTR_INTR;
+    var MARGIN_LEFT =0;
+
+    btn1.addEventListener('click',function(){
+   
+       MTR_INTR = setInterval(function(){
+       main_box.style.left=MARGIN_LEFT+'px';
+       MARGIN_LEFT++;
+       if(window.innerWidth-100==MARGIN_LEFT){
+        clearInterval(MTR_INTR);
+       }
+    })
+
+    })
+
+
+    btn2.addEventListener('click',function(){
+    var MTL_INTR;
+    MTL_INTR =setInterval(function(){
+        main_box.style.left= MARGIN_LEFT+'px';
+        MARGIN_LEFT--;
+        if(MARGIN_LEFT==0){
+          clearInterval(MTL_INTR);
+        }
+    })
+    })
+
+
+    btn3.addEventListener('click',function(){
+      if(MTR_INTR){
+        clearInterval(MTR_INTR)
+      }
+    })
+
+  </script>
+</body>
+</html>
