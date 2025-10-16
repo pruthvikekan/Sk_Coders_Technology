@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin-top: 5px;
+  }
+
+  #btns {
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div>
+  <input id="lable11" type="number" placeholder="Outer Width" />
+  <input id="lable12" type="number" placeholder="Outer Height" />
+  <button id="create_outer">Create Outer Box</button>
+</div>
+
+<div>
+  <input id="lable21" type="number" placeholder="Inner Width" />
+  <input id="lable22" type="number" placeholder="Inner Height" />
+  <button id="create_inner">Create Inner Box</button>
+</div>
+
+<div id="btns">
+  <button id="play_btn">Play</button>
+  <button id="pause_btn">Pause</button>
+</div>
+
+<script>
+var play_btn = document.getElementById('play_btn');
+ var pause_btn = document.getElementById('pause_btn');
+var create_outer = document.getElementById('create_outer');
+var create_inner = document.getElementById('create_inner');
+
+ var lable11= document.getElementById('lable11');
+var lable12= document.getElementById('lable12');
+var lable21= document.getElementById('lable21');
+var lable22= document.getElementById('lable22');
+
+var div1;
+var inner_box;
+ var play_interval;
+var style_left = 0;
+var style_top = 0;
+var direction = "right";
+var iteration = 0;
+
+create_outer.addEventListener("click", function() {
+  div1 = document.createElement('div');
+   div1.style.width = lable11.value + "px";
+  div1.style.height = lable12.value + "px";
+   div1.style.background = "aqua";
+  div1.style.marginTop = "20px";
+  div1.style.position = "relative"; 
+  document.body.appendChild(div1);
+});
+
+create_inner.addEventListener("click", function() {
+  
+  inner_box = document.createElement('div');
+  inner_box.id = "inner_box";
+   inner_box.style.width = lable21.value + "px";
+  inner_box.style.height = lable22.value + "px";
+  inner_box.style.background = "red";
+  inner_box.style.position = "absolute"; 
+  inner_box.style.left = "0px";
+   inner_box.style.top = "0px";
+  div1.appendChild(inner_box);
+});
+
+
+function moveBox() {
+  var width = parseInt(lable11.value);
+  var height = parseInt(lable12.value);
+   var cwidth = parseInt(lable21.value);
+  var cheight = parseInt(lable22.value);
+
+  if (direction === "right") {
+    style_left++;
+    if (style_left >= width - (iteration * cwidth) - cwidth){
+      direction = "down";
+    }
+  } 
+  else if (direction === "down") {
+    style_top++;
+    if (style_top >= height - (iteration * cheight) - cheight){
+      direction = "left";
+    }
+  } 
+  else if (direction === "left") {
+    style_left--;
+    if (style_left <= iteration * cwidth){
+      direction = "up";
+    }
+  } 
+  else if (direction === "up") {
+    style_top--;
+    if (style_top <= (iteration+1) * cheight){
+      direction = "right";
+      iteration++;
+    }
+  }
+
+  inner_box.style.left = style_left + "px";
+  inner_box.style.top = style_top + "px";
+}
+
+play_btn.addEventListener('click', function() {
+  clearInterval(play_interval);
+  play_interval = setInterval(moveBox);
+});
+
+pause_btn.addEventListener('click', function() {
+  clearInterval(play_interval);
+});
+</script>
+</body>
+</html>

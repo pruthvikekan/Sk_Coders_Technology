@@ -41,7 +41,7 @@
     }
   </style>
 </head>
-<body>
+<body id="body">
 
   <div id="box_outer">
     <div id="box_inner"></div>
@@ -50,56 +50,71 @@
   <div id="btns">
     <button id="play_btn">Play</button>
     <button id="pause_btn">Pause</button>
+    <button id="create">Create</button>
   </div>
 
   <script>
 
    var play_btn = document.getElementById('play_btn');
+   var box_outer = document.getElementById('box_outer');
     var pause_btn = document.getElementById('pause_btn');
     var box_inner = document.getElementById('box_inner');
+    var create = document.getElementById('create');
+    var body = document.getElementById('body');
 
     var play_interval;
     var style_left = 0;
     var style_top = 0;
-    var direction = "right"; 
-
-    play_btn.addEventListener('click', function() {
-      clearInterval(play_interval);
-      play_interval = setInterval(moveBox);
-    });
-
-    pause_btn.addEventListener('click', function() {
-      clearInterval(play_interval);
-    });
-
-    function moveBox() {
+    var direction = "right";
+    var width=600;
+    var height=500;
+    var cwidth=100;
+    var cheight=100;
+    var iteration=0;
+     
+    function moveBox(width,height,cwidth,cheight) {
+      console.log(iteration);
       if (direction === "right") {
         style_left++;
-        if (style_left >= 600){
+        if (style_left >= width - (iteration * cwidth)){
           direction = "down";
         } 
       } 
       else if (direction === "down") {
         style_top++;
-        if (style_top >= 500){
+        if (style_top >= height - (iteration * cheight)){
           direction = "left";
         } 
       } 
       else if (direction === "left") {
         style_left--;
-        if (style_left <= 0) direction = "up";
+        if (style_left <= iteration * cwidth){
+          direction = "up";
+        } 
       } 
       else if (direction === "up") {
         style_top--;
-        if (style_top <= 0){
+        if (style_top <= (iteration+1) * cheight){
           direction = "right";
-        } 
+          iteration++;
+
+        }
       }
 
-      box_inner.style.left = style_left + "px";
-      box_inner.style.top = style_top + "px";
+      box_inner.style.left = style_left +"px";
+      box_inner.style.top = style_top +"px";
 
     }
+    play_btn.addEventListener('click', function() {
+      clearInterval(play_interval);
+      play_interval = setInterval(()=>{
+        moveBox(width,height,cwidth,cheight)
+      });
+    });
+
+    pause_btn.addEventListener('click', function() {
+      clearInterval(play_interval);
+    });
 
   </script>
 
